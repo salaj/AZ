@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Figura
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://tempuri.org/points.xsd">
+  <Points>
+    <Point x="1" y="2"/>
+    <Point x="2" y="5"/>
+    <Point x="5" y="7"/>
+     <Point x="7" y="4"/>
+  </Points>
+</Figura>
