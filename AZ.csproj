@@ -48,8 +48,10 @@
     <Compile Include="IAreaCalculator.cs" />
     <Compile Include="IReadable.cs" />
     <Compile Include="IWriter.cs" />
-    <Compile Include="objectMappings\Figura.cs" />
+    <Compile Include="objectMappings\AdditionalProblem.cs" />
+    <Compile Include="objectMappings\MainProblem.cs" />
     <Compile Include="objectMappings\Point.cs" />
+    <Compile Include="objectMappings\Problems.cs" />
     <Compile Include="objectMappings\Result.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

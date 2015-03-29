@@ -8,6 +8,6 @@ namespace AZ
 {
     public interface IAreaCalculator
     {
-        Result Calculate(Figura figura);
+        Result Calculate(MainProblem figura);
     }
 }

@@ -17,10 +17,11 @@ namespace AZ
 
         public void onApplicationInitialized(IReadable readable)
         {
-            Figura figura = readable.ReadDataFromXml();
+            Problems problems = readable.ReadDataFromXml();
+            MainProblem mainProblem = problems.MainProblem;
             //HERE ALGORITHM
             var areaCalculator = new AreaCalculator();
-            var result = areaCalculator.Calculate(figura);
+            var result = areaCalculator.Calculate(mainProblem);
             //
             onApplicationFinished(readable, result);
         }

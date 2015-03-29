@@ -7,10 +7,9 @@ using System.Xml.Serialization;
 namespace AZ.objectMappings
 {
     [Serializable()]
-    [System.Xml.Serialization.XmlRoot("Figura")]
-    public class Figura
+    public class AdditionalProblem
     {
-        [XmlArrayItem("Point")]
-        public Point[] Points;
+        [XmlElement("PointToCheck")]
+        public Point PointToCheck;
     }
 }

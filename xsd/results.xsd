@@ -8,8 +8,9 @@
   <xs:element name="Result" >
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="Area" type="xs:double" >
-        </xs:element>
+        <xs:element name="Area" type="xs:float" />
+        <xs:element name="IsSimplePolygon" type="xs:boolean" />
+        <xs:element name="IsPointInside" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -29,13 +29,13 @@ namespace AZ
 
         public void CreateDeserializer()
         {
-            _serializer = new XmlSerializer(typeof(Figura));
+            _serializer = new XmlSerializer(typeof(Problems));
         }
 
-        public Figura ReadDataFromXml()
+        public Problems ReadDataFromXml()
         {
             _reader = new StreamReader(Path);
-            return (Figura)_serializer.Deserialize(new NamespaceIgnorantXmlTextReader(_reader));
+            return (Problems)_serializer.Deserialize(new NamespaceIgnorantXmlTextReader(_reader));
         }
 
         public void CloseDeSerializer()

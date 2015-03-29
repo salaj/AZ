@@ -8,17 +8,17 @@ namespace AZ
 {
     public class AreaCalculator : IAreaCalculator
     {
-        public Result Calculate(Figura figura)
+        public Result Calculate(MainProblem figura)
         {
-            int n = figura.Points.Length;
+            int n = figura.FigurePoints.Length;
             double sum = 0;
             for (int i = 0; i < n; i++)
             {
-                Point currentPoint = figura.Points[i];
-                Point nextPoint = i == n - 1 ? figura.Points[0] :
-                    figura.Points[i + 1];
-                Point previousPoint = i == 0 ? figura.Points[n - 1]
-                    : figura.Points[i - 1];
+                Point currentPoint = figura.FigurePoints[i];
+                Point nextPoint = i == n - 1 ? figura.FigurePoints[0] :
+                    figura.FigurePoints[i + 1];
+                Point previousPoint = i == 0 ? figura.FigurePoints[n - 1]
+                    : figura.FigurePoints[i - 1];
 
                 sum += (currentPoint.X * (nextPoint.Y - previousPoint.Y));
             }

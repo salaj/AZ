@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace AZ.objectMappings
 {
@@ -9,10 +10,10 @@ namespace AZ.objectMappings
     public class Point
     {
         [System.Xml.Serialization.XmlAttribute("x")]
-        public int X { get; set; }
+        public float X { get; set; }
 
         [System.Xml.Serialization.XmlAttribute("y")]
-        public int Y { get; set; }
+        public float Y { get; set; }
 
     }
 }

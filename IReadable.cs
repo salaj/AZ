@@ -9,7 +9,7 @@ namespace AZ
     public interface IReadable
     {
         void CreateDeserializer();
-        Figura ReadDataFromXml();
+        Problems ReadDataFromXml();
         void CloseDeSerializer();
     }
 }
