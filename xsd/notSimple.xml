@@ -3,10 +3,10 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema">
   <MainProblem>
     <FigurePoints>
-      <FigurePoint x="1" y="2"/>
-      <FigurePoint x="2" y="5"/>
-      <FigurePoint x="5" y="7"/>
-      <FigurePoint x="7" y="4"/>
+      <FigurePoint x="0" y="0"/>
+      <FigurePoint x="2" y="3"/>
+      <FigurePoint x="3" y="2"/>
+      <FigurePoint x="0" y="2"/>
     </FigurePoints>
   </MainProblem>
   <AdditionalProblem>

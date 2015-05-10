@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AZ.objectMappings;
+using AZ.solution.additionalProblem;
+using AZ.solution.secondaryProblem;
 
 namespace AZ
 {
@@ -18,10 +20,28 @@ namespace AZ
         public void onApplicationInitialized(IReadable readable)
         {
             Problems problems = readable.ReadDataFromXml();
-            MainProblem mainProblem = problems.MainProblem;
-            //HERE ALGORITHM
-            var areaCalculator = new AreaCalculator();
-            var result = areaCalculator.Calculate(mainProblem);
+            var solutionProvider = new SolutionProvider();
+            solutionProvider.Initialize(problems);
+            bool isPolygonSimple = solutionProvider.CheckIfPolygonIsSimple();
+            Result result;
+            if (isPolygonSimple)
+            {
+                result = new Result
+                {
+                    Area = solutionProvider.CalculatePolygonArea(),
+                    IsSimplePolygon = true,
+                    IsPointInside = solutionProvider.IsPointInsidePolygon()
+                };
+            }
+            else
+            {
+                result = new Result
+                {
+                    Area = -1,
+                    IsSimplePolygon = false,
+                    IsPointInside = false
+                };
+            }
             //
             onApplicationFinished(readable, result);
         }

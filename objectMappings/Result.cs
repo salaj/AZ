@@ -11,5 +11,9 @@ namespace AZ.objectMappings
     {
         [System.Xml.Serialization.XmlElement("Area")]
         public double Area { get; set; }
+        [System.Xml.Serialization.XmlElement("IsSimplePolygon")]
+        public bool IsSimplePolygon { get; set; }
+        [System.Xml.Serialization.XmlElement("IsPointInside")]
+        public bool IsPointInside { get; set; }
     }
 }

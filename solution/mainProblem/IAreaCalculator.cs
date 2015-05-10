@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace AZ
 {
     public interface IAreaCalculator
     {
-        Result Calculate(MainProblem figura);
+        void SetPolygonPoints(IEnumerable points);
+        double CalculatePolygonArea();
     }
 }

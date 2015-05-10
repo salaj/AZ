@@ -24,6 +24,7 @@ namespace AZ
     public class Reader : IReadable
     {
         private const string Path = "../../xsd/points.xml";
+        //private const string Path = "../../xsd/notSimple.xml";
         private XmlSerializer _serializer;
         private StreamReader _reader;
 
