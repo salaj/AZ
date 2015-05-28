@@ -10,7 +10,7 @@ namespace AZ.solution.secondaryProblem
     public class SimplePolygonChecker : ISimplePolygonChecker, ISimplePolygonFlow
     {
         private readonly List<Geometry.Point> PolygonPoint = new List<Geometry.Point>();
-        private readonly  Dictionary<Geometry.Point, Geometry.Segment> Segments = new Dictionary<Geometry.Point, Geometry.Segment>(); 
+        private readonly Dictionary<Geometry.Point, Geometry.Segment> Segments = new Dictionary<Geometry.Point, Geometry.Segment>();
         public void SetPolygonPoints(IEnumerable points)
         {
             Geometry.Point previous;
@@ -25,7 +25,7 @@ namespace AZ.solution.secondaryProblem
         {
             if (CheckIfAnyPointsPairOverlap())
                 return false;
-            Geometry.Point minimal = FindMinimalXYPoint();
+            Geometry.Point minimal = new Geometry.Point(FindMinimalXPoint(), FindMinimalYPoint());
             TranslateCoordinateSystem(minimal);
             SetSegments();
             SortPointsByNonDecreasingX();
@@ -51,17 +51,27 @@ namespace AZ.solution.secondaryProblem
             return false;
         }
 
-        public Geometry.Point FindMinimalXYPoint()
+        public double FindMinimalXPoint()
         {
-            var minimal = new Geometry.Point(Double.MaxValue, Double.MaxValue);
+            double minimal = Double.MaxValue;
             foreach (Geometry.Point point in PolygonPoint)
             {
-                if (minimal.x > point.x)
+                if (minimal > point.x)
                 {
-                    minimal = point;
-                } else if (minimal.x == point.x && minimal.y > point.y)
+                    minimal = point.x;
+                }
+            }
+            return minimal;
+        }
+
+        public double FindMinimalYPoint()
+        {
+            double minimal = Double.MaxValue;
+            foreach (Geometry.Point point in PolygonPoint)
+            {
+                if (minimal > point.y)
                 {
-                    minimal = point;
+                    minimal = point.y;
                 }
             }
             return minimal;
@@ -69,7 +79,7 @@ namespace AZ.solution.secondaryProblem
 
         public void TranslateCoordinateSystem(Geometry.Point minimalPoint)
         {
-            for(int i = 0; i < PolygonPoint.Count; i++)
+            for (int i = 0; i < PolygonPoint.Count; i++)
             {
                 PolygonPoint[i] = PolygonPoint[i] - minimalPoint;
             }
@@ -108,7 +118,7 @@ namespace AZ.solution.secondaryProblem
                 {
                     Geometry.Segment s_previous = T.GetPrevious(s);
                     Geometry.Segment s_next = T.GetNext(s);
-                    if (s_previous != null  && s_next != null && Geometry.Intersection(s_previous, s_next))
+                    if (s_previous != null && s_next != null && Geometry.Intersection(s_previous, s_next))
                         return true;
                 }
 
@@ -121,19 +131,28 @@ namespace AZ.solution.secondaryProblem
             for (int i = 0; i < PolygonPoint.Count; i++)
             {
                 var p = new Geometry.Point(PolygonPoint[i].x, PolygonPoint[i].y);
-                if (i % 2 == 0)
+                //if (i % 2 == 0)
                 {
-                    var pNext = new Geometry.Point(PolygonPoint[i + 1].x, PolygonPoint[i + 1].y);
+                    var pNext = new Geometry.Point(PolygonPoint[(i + 1) % PolygonPoint.Count].x, PolygonPoint[(i + 1) % PolygonPoint.Count].y);
                     var s = new Geometry.Segment(p, pNext);
                     Segments.Add(p, s);
                 }
-                else
-                {
-                    var pPrev = new Geometry.Point(PolygonPoint[i - 1].x, PolygonPoint[i - 1].y);
-                    Geometry.Segment s = Segments[pPrev];
-                    Segments.Add(p, s);
-                }
+               // else
+                //{
+                //    if (i > 0)
+                //    {
+                //        var pPrev = new Geometry.Point(PolygonPoint[i - 1].x, PolygonPoint[i - 1].y);
+                //        Geometry.Segment s = Segments[pPrev];
+                //        Segments.Add(p, s);
+                //    }
+                //    //else
+                //    //{
+                //    //}
+                //}
             }
+            //var pPrev2 = new Geometry.Point(PolygonPoint[PolygonPoint.Count - 1].x, PolygonPoint[PolygonPoint.Count - 1].y);
+            //Geometry.Segment s2 = Segments[pPrev2];
+            //Segments.Add(new Geometry.Point(PolygonPoint[0].x, PolygonPoint[0].y), s2);
         }
     }
 }

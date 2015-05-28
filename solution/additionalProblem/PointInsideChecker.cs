@@ -50,6 +50,9 @@ namespace AZ.solution.additionalProblem
             for (int i = 0; i < n; i++)
             {
                 var e = new Geometry.Segment(L[i], L[i+1]);
+                //todo point on e?
+                if (IsPointOnSegment(point, e))
+                    return true;
                 switch (CheckIntersections(e, k))
                 {
                     case Intersection.InOnePointButNotVertex:
@@ -81,10 +84,28 @@ namespace AZ.solution.additionalProblem
             return M % 2 == 0 ? false : true;
         }
 
+        public bool IsPointOnSegment(Point p, Geometry.Segment s)
+        {
+            double eps = 0.000001;
+            if ((s.ps.x == p.X && s.ps.y == p.Y) || (s.pe.x == p.X && s.pe.y == p.Y))
+                return true;
+            if (Math.Abs(s.ps.y - p.Y) == 0 && Math.Abs(s.pe.y - p.Y) == 0)
+                return true;
+            if (Math.Abs((s.ps.x - p.X) / (s.ps.y - p.Y) 
+                - (s.pe.x - p.X) / (s.pe.y - p.Y)) 
+                < eps)
+                return true;
+            return false;
+        }
+
         public bool IsIntersectionInExactlyOneVertex(Geometry.Segment s1, Geometry.Segment s2)
         {
-            if (s1.ps == s2.ps || s1.ps == s2.pe || s1.pe == s2.ps || s1.pe == s2.pe)
+            if (IsPointOnSegment(new Point() { X = (float)s1.ps.x, Y = (float)s1.ps.y }, s2) ||
+                IsPointOnSegment(new Point() { X = (float)s1.pe.x, Y = (float)s1.pe.y }, s2))
                 return true;
+            return false;
+                if (s1.ps == s2.ps || s1.ps == s2.pe || s1.pe == s2.ps || s1.pe == s2.pe)
+                    return true;
             return false;
         }
 

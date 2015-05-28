@@ -184,26 +184,51 @@ namespace AZ.solution
 
             return false;
         }
-
+        public static bool IsPointOnSegment(Point p1, Segment s)
+        {
+            if(p1.x == s.ps.x)
+            {
+                if ((p1.y >= s.ps.y && p1.y <= s.pe.y) || (p1.y <= s.ps.y && p1.y >= s.pe.y))
+                    return true;
+                return false;
+            }
+            if((p1.x >= s.ps.x && p1.x <= s.pe.x) || (p1.x <= s.ps.x && p1.x >= s.pe.x) )
+                return true;
+            return false;
+        }
         public static bool Overlapping(Segment s1, Segment s2)
         {
-            Direction s1s_s2 = s2.Direction(s1.ps); // polozenie poczatku odcinka s1 wzgledem odcinka s2
-            Direction s1e_s2 = s2.Direction(s1.pe); // polozenie konca    odcinka s1 wzgledem odcinka s2
-            Direction s2s_s1 = s1.Direction(s2.ps); // polozenie poczatku odcinka s2 wzgledem odcinka s1
-            Direction s2e_s1 = s1.Direction(s2.pe); // polozenie konca    odcinka s2 wzgledem odcinka s1
-
-            int s12 = s1s_s2*s1e_s2; // polozenie odcinka s1 wzgledem odcinka s2
-            int s21 = s2s_s1*s2e_s1; // polozenie odcinka s2 wzgledem odcinka s1
-
-            // konce jednego z odcinkow leza po tej samej stronie drugiego
-            if (s12 == 0 || s21 == 0) // odcinki są współliniowe
+            bool colinear = false;
+            if ((s1.pe.x - s1.ps.x) == 0 && (s2.pe.x - s2.ps.x) == 0)
+                colinear = true;
+            else
             {
-                Segment first = s1.ps.x < s2.ps.x ? s1 : s2;
-                Segment second = s1.ps.x >= s2.ps.x ? s1 : s2;
-                if (first.pe.x > second.ps.x)
-                    return true;
+                float a1 =(float)( (s1.pe.y - s1.ps.y) / (s1.pe.x - s1.ps.x));
+                float a2 = (float)((s2.pe.y - s2.ps.y) / (s2.pe.x - s2.ps.x));
+                if (a1 == a2)
+                    colinear = true;
             }
+
+            if (colinear && (IsPointOnSegment(s1.ps, s2) || IsPointOnSegment(s1.pe, s2)))
+                return true;
             return false;
+            //Direction s1s_s2 = s2.Direction(s1.ps); // polozenie poczatku odcinka s1 wzgledem odcinka s2
+            //Direction s1e_s2 = s2.Direction(s1.pe); // polozenie konca    odcinka s1 wzgledem odcinka s2
+            //Direction s2s_s1 = s1.Direction(s2.ps); // polozenie poczatku odcinka s2 wzgledem odcinka s1
+            //Direction s2e_s1 = s1.Direction(s2.pe); // polozenie konca    odcinka s2 wzgledem odcinka s1
+
+            //int s12 = s1s_s2*s1e_s2; // polozenie odcinka s1 wzgledem odcinka s2
+            //int s21 = s2s_s1*s2e_s1; // polozenie odcinka s2 wzgledem odcinka s1
+
+            //// konce jednego z odcinkow leza po tej samej stronie drugiego
+            //if (s12 == 0 || s21 == 0) // odcinki są współliniowe
+            //{
+            //    Segment first = s1.ps.x < s2.ps.x ? s1 : s2;
+            //    Segment second = s1.ps.x >= s2.ps.x ? s1 : s2;
+            //    if (first.pe.x > second.ps.x)
+            //        return true;
+            //}
+            //return false;
         }
 
         // sortowanie katowe punktow z tablicy p w kierunku przeciwnym do ruchu wskazowek zegara wzgledem punktu centralnego c

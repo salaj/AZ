@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Result>
-  <Area>14.5</Area>
-  <IsSimplePolygon>true</IsSimplePolygon>
+  <Area>-1</Area>
+  <IsSimplePolygon>false</IsSimplePolygon>
   <IsPointInside>false</IsPointInside>
 </Result>

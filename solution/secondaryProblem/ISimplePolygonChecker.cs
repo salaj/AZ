@@ -9,7 +9,8 @@ namespace AZ.solution.secondaryProblem
     {
         bool CheckIfAnyPointsPairOverlap();
 
-        Geometry.Point FindMinimalXYPoint();
+        double FindMinimalXPoint();
+        double FindMinimalYPoint();
 
         void TranslateCoordinateSystem(Geometry.Point minimalPoint);
 
