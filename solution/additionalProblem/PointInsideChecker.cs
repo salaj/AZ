@@ -59,7 +59,7 @@ namespace AZ.solution.additionalProblem
                         M++;
                     break;
                     case Intersection.InOnePointExacltyVertex:
-                        if (i == 0 || !Geometry.Intersection(new Geometry.Segment(L[i], L[i + 2]), l))
+                        if (/*i == 0 ||*/ !Geometry.Intersection(new Geometry.Segment(L[i], L[i + 2]), l))
                         {
                             continue;
                         }
@@ -87,14 +87,23 @@ namespace AZ.solution.additionalProblem
         public bool IsPointOnSegment(Point p, Geometry.Segment s)
         {
             double eps = 0.000001;
-            if ((s.ps.x == p.X && s.ps.y == p.Y) || (s.pe.x == p.X && s.pe.y == p.Y))
+            if ((p.X == s.ps.x && p.Y == s.ps.y) || (p.X == s.pe.x && p.Y == s.pe.y))
                 return true;
-            if (Math.Abs(s.ps.y - p.Y) == 0 && Math.Abs(s.pe.y - p.Y) == 0)
-                return true;
-            if (Math.Abs((s.ps.x - p.X) / (s.ps.y - p.Y) 
-                - (s.pe.x - p.X) / (s.pe.y - p.Y)) 
-                < eps)
-                return true;
+            if (s.ps.x == p.X)
+            {
+                if(s.pe.x == p.X)
+                {
+                    if((s.ps.y <= p.Y && s.pe.y >= p.Y) || (s.ps.y >= p.Y && s.pe.y <= p.Y))
+                        return true;
+                }
+                return false;
+            }
+            if ((s.ps.y - p.Y) / (s.ps.x - p.X) == (s.pe.y - p.Y) / (s.pe.x - p.X))
+            {
+                if ((s.ps.y <= p.Y && s.pe.y >= p.Y) || (s.ps.y >= p.Y && s.pe.y <= p.Y))
+                    if ((s.ps.x <= p.X && s.pe.x >= p.X) || (s.ps.x >= p.X && s.pe.x <= p.X))
+                        return true;
+            }
             return false;
         }
 
