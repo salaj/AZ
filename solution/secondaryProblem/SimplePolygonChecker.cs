@@ -7,11 +7,18 @@ using AZ.objectMappings;
 
 namespace AZ.solution.secondaryProblem
 {
+    public enum Algorithm
+    {
+        nlogn,
+        n2
+    }
+
     public class SimplePolygonChecker : ISimplePolygonChecker, ISimplePolygonFlow
     {
         private readonly List<Geometry.Point> PolygonPoint = new List<Geometry.Point>();
         private readonly Dictionary<Geometry.Point, Geometry.Segment> Segments = new Dictionary<Geometry.Point, Geometry.Segment>();
         private List<Geometry.Segment> SegmentsList = new List<Geometry.Segment>();
+        private Algorithm type = Algorithm.n2;
         public void SetPolygonPoints(IEnumerable points)
         {
             Geometry.Point previous;
@@ -24,31 +31,37 @@ namespace AZ.solution.secondaryProblem
 
         public bool CheckIfPolygonIsSimple()
         {
-            if (CheckIfAnyPointsPairOverlap())
-                return false;
-            SetSegments();
-            bool result = true;
-            for (int i = 0; i < SegmentsList.Count; i++ )
+            if (type == Algorithm.n2)
             {
-                for(int j = i + 1 ; j < SegmentsList.Count; j++)
-                {
-                    if (CheckCrossing(SegmentsList[i], SegmentsList[j]))
-                        result = false;
-                    if (!result)
-                        return result;
-                }
-            }
-            return result;
-
                 if (CheckIfAnyPointsPairOverlap())
                     return false;
-            Geometry.Point minimal = new Geometry.Point(FindMinimalXPoint(), FindMinimalYPoint());
-            TranslateCoordinateSystem(minimal);
-            SetSegments();
-            SortPointsByNonDecreasingX();
-            if (CheckIfAnyTwoEdgesIntersects())
-                return false;
-            return true;
+                SetSegments();
+                bool result = true;
+                for (int i = 0; i < SegmentsList.Count; i++)
+                {
+                    for (int j = i + 1; j < SegmentsList.Count; j++)
+                    {
+                        if (CheckCrossing(SegmentsList[i], SegmentsList[j]))
+                            result = false;
+                        if (!result)
+                            return result;
+                    }
+                }
+                return result;
+            }
+            else if (type == Algorithm.nlogn)
+            {
+                if (CheckIfAnyPointsPairOverlap())
+                    return false;
+                Geometry.Point minimal = new Geometry.Point(FindMinimalXPoint(), FindMinimalYPoint());
+                TranslateCoordinateSystem(minimal);
+                SetSegments();
+                SortPointsByNonDecreasingX();
+                if (CheckIfAnyTwoEdgesIntersects())
+                    return false;
+                return true;
+            }
+            return false;
         }
 
         public bool CheckCrossing(Geometry.Segment s1, Geometry.Segment s2)
@@ -162,7 +175,7 @@ namespace AZ.solution.secondaryProblem
                     Segments.Add(p, s);
                     SegmentsList.Add(s);
                 }
-               // else
+                // else
                 //{
                 //    if (i > 0)
                 //    {
