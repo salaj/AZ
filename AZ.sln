@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AZ", "AZ.csproj", "{2B9B9AFF-7F3F-475C-928D-4C1DD99659D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AZ_Tests", "AZ_Tests.csproj", "{48304B3A-1521-452A-8B40-15AB16B23691}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AZ_Tests", "..\AZ_Tests\AZ_Tests.csproj", "{48304B3A-1521-452A-8B40-15AB16B23691}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

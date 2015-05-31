@@ -7,18 +7,11 @@ using AZ.objectMappings;
 
 namespace AZ.solution.secondaryProblem
 {
-    public enum Algorithm
-    {
-        nlogn,
-        n2
-    }
-
     public class SimplePolygonChecker : ISimplePolygonChecker, ISimplePolygonFlow
     {
         private readonly List<Geometry.Point> PolygonPoint = new List<Geometry.Point>();
         private readonly Dictionary<Geometry.Point, Geometry.Segment> Segments = new Dictionary<Geometry.Point, Geometry.Segment>();
         private List<Geometry.Segment> SegmentsList = new List<Geometry.Segment>();
-        private Algorithm type = Algorithm.n2;
         public void SetPolygonPoints(IEnumerable points)
         {
             Geometry.Point previous;
@@ -31,37 +24,31 @@ namespace AZ.solution.secondaryProblem
 
         public bool CheckIfPolygonIsSimple()
         {
-            if (type == Algorithm.n2)
+            if (CheckIfAnyPointsPairOverlap())
+                return false;
+            SetSegments();
+            bool result = true;
+            for (int i = 0; i < SegmentsList.Count; i++ )
             {
-                if (CheckIfAnyPointsPairOverlap())
-                    return false;
-                SetSegments();
-                bool result = true;
-                for (int i = 0; i < SegmentsList.Count; i++)
+                for(int j = i + 1 ; j < SegmentsList.Count; j++)
                 {
-                    for (int j = i + 1; j < SegmentsList.Count; j++)
-                    {
-                        if (CheckCrossing(SegmentsList[i], SegmentsList[j]))
-                            result = false;
-                        if (!result)
-                            return result;
-                    }
+                    if (CheckCrossing(SegmentsList[i], SegmentsList[j]))
+                        result = false;
+                    if (!result)
+                        return result;
                 }
-                return result;
             }
-            else if (type == Algorithm.nlogn)
-            {
+            return result;
+
                 if (CheckIfAnyPointsPairOverlap())
                     return false;
-                Geometry.Point minimal = new Geometry.Point(FindMinimalXPoint(), FindMinimalYPoint());
-                TranslateCoordinateSystem(minimal);
-                SetSegments();
-                SortPointsByNonDecreasingX();
-                if (CheckIfAnyTwoEdgesIntersects())
-                    return false;
-                return true;
-            }
-            return false;
+            Geometry.Point minimal = new Geometry.Point(FindMinimalXPoint(), FindMinimalYPoint());
+            TranslateCoordinateSystem(minimal);
+            SetSegments();
+            SortPointsByNonDecreasingX();
+            if (CheckIfAnyTwoEdgesIntersects())
+                return false;
+            return true;
         }
 
         public bool CheckCrossing(Geometry.Segment s1, Geometry.Segment s2)
