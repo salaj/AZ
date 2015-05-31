@@ -11,6 +11,7 @@ namespace AZ.solution.secondaryProblem
     {
         private readonly List<Geometry.Point> PolygonPoint = new List<Geometry.Point>();
         private readonly Dictionary<Geometry.Point, Geometry.Segment> Segments = new Dictionary<Geometry.Point, Geometry.Segment>();
+        private List<Geometry.Segment> SegmentsList = new List<Geometry.Segment>();
         public void SetPolygonPoints(IEnumerable points)
         {
             Geometry.Point previous;
@@ -25,6 +26,22 @@ namespace AZ.solution.secondaryProblem
         {
             if (CheckIfAnyPointsPairOverlap())
                 return false;
+            SetSegments();
+            bool result = true;
+            for (int i = 0; i < SegmentsList.Count; i++ )
+            {
+                for(int j = i + 1 ; j < SegmentsList.Count; j++)
+                {
+                    if (CheckCrossing(SegmentsList[i], SegmentsList[j]))
+                        result = false;
+                    if (!result)
+                        return result;
+                }
+            }
+            return result;
+
+                if (CheckIfAnyPointsPairOverlap())
+                    return false;
             Geometry.Point minimal = new Geometry.Point(FindMinimalXPoint(), FindMinimalYPoint());
             TranslateCoordinateSystem(minimal);
             SetSegments();
@@ -32,6 +49,13 @@ namespace AZ.solution.secondaryProblem
             if (CheckIfAnyTwoEdgesIntersects())
                 return false;
             return true;
+        }
+
+        public bool CheckCrossing(Geometry.Segment s1, Geometry.Segment s2)
+        {
+            if (s1.ps.Equals(s2.ps) || s1.ps.Equals(s2.pe) || s1.pe.Equals(s2.ps) || s1.pe.Equals(s2.pe))
+                return false;
+            return Geometry.Intersection(s1, s2);
         }
 
         public bool CheckIfAnyPointsPairOverlap()
@@ -106,7 +130,7 @@ namespace AZ.solution.secondaryProblem
                 double minX = Math.Min(s.ps.x, s.pe.x);
                 if (minX == p.x)
                 {
-                    T.Nodes.Add(s, new Node(s));
+                    T.Nodes.Add(new Geometry.Segment(s.ps, s.pe), new Node(s));
                     Geometry.Segment s_previous = T.GetPrevious(s);
                     Geometry.Segment s_next = T.GetNext(s);
                     if (s_previous != null && Geometry.Intersection(s_previous, s))
@@ -136,6 +160,7 @@ namespace AZ.solution.secondaryProblem
                     var pNext = new Geometry.Point(PolygonPoint[(i + 1) % PolygonPoint.Count].x, PolygonPoint[(i + 1) % PolygonPoint.Count].y);
                     var s = new Geometry.Segment(p, pNext);
                     Segments.Add(p, s);
+                    SegmentsList.Add(s);
                 }
                // else
                 //{

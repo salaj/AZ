@@ -157,7 +157,7 @@ namespace AZ.solution
         // prostokata wyznaczonego przez punkty p1 i p2
         public static bool OnRectangle(Point p1, Point p2, Point q)
         {
-            return Math.Min(p1.x, p2.x) <= q.x && q.x <= Math.Max(p1.x, p2.x) && Math.Min(p1.y, p2.y) <= q.y && q.y <= Math.Max(p1.y, p2.y);
+            return Math.Min(p1.x, p2.x) < q.x && q.x < Math.Max(p1.x, p2.x) && Math.Min(p1.y, p2.y) < q.y && q.y < Math.Max(p1.y, p2.y);
         }
 
         public static bool Intersection(Segment s1, Segment s2)
